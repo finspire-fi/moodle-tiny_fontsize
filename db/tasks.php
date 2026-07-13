@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other meta-data are defined here.
+ * Scheduled tasks for the Tiny font size plugin.
  *
  * @package     tiny_fontsize
  * @copyright   2025 Mikko Haiku <mikko.haiku@iki.fi>
@@ -24,8 +24,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'tiny_fontsize';
-$plugin->release = '1.0.0';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->requires = 2022112800;
-$plugin->version = 2026071300;
+$tasks = [
+    [
+        'classname' => 'tiny_fontsize\task\validate_license',
+        'blocking' => 0,
+        'minute' => 0,
+        'hour' => 2,
+        'day' => '*',
+        'dayofweek' => 0,  // Sunday
+        'month' => '*',
+    ],
+];

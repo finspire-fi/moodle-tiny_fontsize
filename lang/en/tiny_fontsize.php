@@ -26,7 +26,19 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['button_fontsize'] = 'Font size';
+$string['fontsize:use'] = "Allow the plugin usage";
+$string['license_key'] = 'License Key';
+$string['license_key_desc'] = 'Enter the license key for this plugin. Leave empty if no license is required.';
+$string['licensingheading'] = 'Licensing';
 $string['menuitem_fontsize'] = 'Font size';
 $string['pluginname'] = 'Font size plugin';
 $string['privacy:metadata'] = 'Font size plugin does not store any personal data';
-$string['fontsize:use'] = "Allow the plugin usage";
+$string['task_validate_license'] = 'Validate license for Font size';
+$string['settings'] = 'Font size settings';
+$string['license_validation_info'] = 'License Validation Status';
+$string['license_status'] = 'Status';
+$string['license_valid'] = 'Valid';
+$string['license_expires'] = 'Expires';
+$string['last_validated'] = 'Last Validated';
+$string['validation_error'] = 'Validation Error';
+$string['settings'] = 'Font size settings';
