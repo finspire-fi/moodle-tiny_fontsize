@@ -59,7 +59,6 @@ class plugininfo extends plugin implements plugin_with_configuration, plugin_wit
 
     /**
      * Get plugin configuration.
-     * Currently not in use.
      *
      * @return array
      */
@@ -69,6 +68,17 @@ class plugininfo extends plugin implements plugin_with_configuration, plugin_wit
         array $fpoptions,
         ?\editor_tiny\editor $editor = null
     ): array {
-        return [];
+        $config = [];
+        $rawsizes = get_config('tiny_fontsize', 'fontsizes');
+        if ($rawsizes === false || trim($rawsizes) === '') {
+            // The setting default hasn't been written to config yet (e.g. plugin was
+            // updated but the site hasn't gone through an upgrade yet). Fall back to
+            // the same default used in settings.php so the picker still works.
+            $rawsizes = "10\r\n12\r\n14\r\n18";
+        }
+        $sizes = preg_split('/\r\n|\r|\n/', $rawsizes);
+        $config['fontsizes'] = array_values(array_filter(array_map('intval', $sizes)));
+        $config['fontsizeunit'] = get_config('tiny_fontsize', 'fontsizeunit') ?: 'pt';
+        return $config;
     }
 }

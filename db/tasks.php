@@ -28,8 +28,8 @@ $tasks = [
     [
         'classname' => 'tiny_fontsize\task\validate_license',
         'blocking' => 0,
-        'minute' => 0,
-        'hour' => 2,
+        'minute' => 'R',
+        'hour' => 'R',
         'day' => '*',
         'dayofweek' => 0,  // Sunday
         'month' => '*',

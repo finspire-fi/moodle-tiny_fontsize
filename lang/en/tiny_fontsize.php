@@ -27,6 +27,15 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['button_fontsize'] = 'Font size';
 $string['fontsize:use'] = "Allow the plugin usage";
+$string['fontsizes'] = "Font sizes";
+$string['fontsizes_desc'] = "List of available font sizes separated by a new line.";
+$string['fontsizeunit'] = "Font size unit";
+$string['fontsizeunit_desc'] = "The CSS unit applied to each font size.";
+$string['unit_pt'] = 'Points (pt)';
+$string['unit_px'] = 'Pixels (px)';
+$string['unit_em'] = 'Em (em)';
+$string['unit_rem'] = 'Root em (rem)';
+$string['unit_percent'] = 'Percent (%)';
 $string['license_key'] = 'License Key';
 $string['license_key_desc'] = 'Enter the license key for this plugin. Leave empty if no license is required.';
 $string['licensingheading'] = 'Licensing';
