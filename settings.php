@@ -94,7 +94,7 @@ if ($ADMIN->fulltree) {
     }
 
     if ($lastChecked) {
-        $infoText .= get_string('last_validated', 'tiny_fontsize') . ': ' . date('Y-m-d H:i:s', $lastChecked);
+        $infoText .= "<br>" . get_string('last_validated', 'tiny_fontsize') . ': ' . date('Y-m-d H:i:s', $lastChecked);
     }
 
     if (trim($infoText)) {
