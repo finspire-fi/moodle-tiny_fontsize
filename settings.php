@@ -28,6 +28,24 @@ $plugin = 'tiny_fontsize';
 
 $settings = new admin_settingpage('tiny_fontsize_settings', new lang_string('settings', $plugin));
 if ($ADMIN->fulltree) {
+    // Lock every setting except the license key itself until the license has been
+    // validated successfully. This uses the same mechanism as forcing a setting via
+    // config.php, so the field is both rendered disabled and pinned to its current
+    // value even if a request bypassing the disabled control tried to change it.
+    $licensevalidationdata = get_config('tiny_fontsize', 'license_validation_data');
+    $licensevalidationerror = get_config('tiny_fontsize', 'license_validation_error');
+    $licensevalid = false;
+    if (empty($licensevalidationerror) && !empty($licensevalidationdata)) {
+        $decodedlicensedata = json_decode($licensevalidationdata, true);
+        $licensevalid = !empty($decodedlicensedata['valid']);
+    }
+
+    if (!$licensevalid) {
+        foreach (['fontsizes', 'fontsizeunit'] as $lockedsetting) {
+            $CFG->forced_plugin_settings['tiny_fontsize'][$lockedsetting] = get_config('tiny_fontsize', $lockedsetting);
+        }
+    }
+
     $defaults = [
         '10',
         '12',
@@ -64,13 +82,22 @@ if ($ADMIN->fulltree) {
         ''
     ));
 
-    $settings->add(new admin_setting_configtext(
+    $licensekeysetting = new admin_setting_configtext(
         'tiny_fontsize/license_key',
         get_string('license_key', 'tiny_fontsize'),
         get_string('license_key_desc', 'tiny_fontsize'),
         '',
         PARAM_RAW_TRIMMED
-    ));
+    );
+    // Validate immediately whenever the license key is changed and saved, rather
+    // than waiting for the next scheduled run.
+    $licensekeysetting->set_updatedcallback(static function() {
+        core_php_time_limit::raise(60);
+        ob_start();
+        (new \tiny_fontsize\task\validate_license())->execute();
+        ob_end_clean();
+    });
+    $settings->add($licensekeysetting);
 
     // License validation information (read-only)
     $validationData = get_config('tiny_fontsize', 'license_validation_data');
