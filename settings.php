@@ -25,10 +25,38 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin = 'tiny_fontsize';
-$ADMIN->add('editortiny', new admin_category($plugin, new lang_string('pluginname', $plugin)));
 
 $settings = new admin_settingpage('tiny_fontsize_settings', new lang_string('settings', $plugin));
 if ($ADMIN->fulltree) {
+    $defaults = [
+        '10',
+        '12',
+        '14',
+        '18',
+    ];
+
+    $settings->add(
+        new admin_setting_configtextarea('tiny_fontsize/fontsizes',
+                get_string('fontsizes', 'tiny_fontsize'),
+                get_string('fontsizes_desc', 'tiny_fontsize'),
+                implode("\r\n", $defaults), PARAM_TEXT, 80, 10));
+
+    $units = [
+        'pt' => get_string('unit_pt', 'tiny_fontsize'),
+        'px' => get_string('unit_px', 'tiny_fontsize'),
+        'em' => get_string('unit_em', 'tiny_fontsize'),
+        'rem' => get_string('unit_rem', 'tiny_fontsize'),
+        '%' => get_string('unit_percent', 'tiny_fontsize'),
+    ];
+
+    $settings->add(new admin_setting_configselect(
+        'tiny_fontsize/fontsizeunit',
+        get_string('fontsizeunit', 'tiny_fontsize'),
+        get_string('fontsizeunit_desc', 'tiny_fontsize'),
+        'pt',
+        $units
+    ));
+
     // Licensing settings
     $settings->add(new admin_setting_heading(
         'tiny_fontsize/licensingheading',
@@ -77,7 +105,3 @@ if ($ADMIN->fulltree) {
         ));
     }
 }
-
-// Add the settings page under the plugin category so it doesn't create
-// a second top-level settings entry with the same name.
-$ADMIN->add($plugin, $settings);
