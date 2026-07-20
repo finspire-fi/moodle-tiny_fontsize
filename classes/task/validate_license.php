@@ -24,13 +24,10 @@
 
 namespace tiny_fontsize\task;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Scheduled task to validate the license for Tiny font size plugin.
  */
 class validate_license extends \core\task\scheduled_task {
-
     /**
      * Get a descriptive name for this task (shown in admin UI).
      */
@@ -51,14 +48,14 @@ class validate_license extends \core\task\scheduled_task {
     public function execute() {
         global $CFG;
 
-        $license_key = get_config('tiny_fontsize', 'license_key');
+        $licensekey = get_config('tiny_fontsize', 'license_key');
 
-        if (empty($license_key)) {
+        if (empty($licensekey)) {
             mtrace('No license key configured for tiny_fontsize');
             return;
         }
 
-        $this->validate_license_via_api($license_key);
+        $this->validate_license_via_api($licensekey);
     }
 
     /**
@@ -75,14 +72,14 @@ class validate_license extends \core\task\scheduled_task {
      * Validate the license via the licensing API, retrying transient failures
      * with an exponential backoff before giving up.
      *
-     * @param string $license_key The license key to validate.
+     * @param string $licensekey The license key to validate.
      */
-    private function validate_license_via_api($license_key) {
+    private function validate_license_via_api($licensekey) {
         $attempt = 0;
 
         do {
             $attempt++;
-            $result = $this->perform_request($license_key);
+            $result = $this->perform_request($licensekey);
 
             $shouldretry = $result['curl_error'] !== ''
                 || $result['http_code'] === 0
@@ -103,19 +100,19 @@ class validate_license extends \core\task\scheduled_task {
         } while ($attempt < self::MAX_ATTEMPTS);
 
         $response = $result['response'];
-        $http_code = $result['http_code'];
-        $curl_error = $result['curl_error'];
+        $httpcode = $result['http_code'];
+        $curlerror = $result['curl_error'];
 
-        if ($curl_error) {
-            mtrace("License validation error for tiny_fontsize: CURL error - $curl_error (after {$attempt} attempt(s))");
-            set_config('license_validation_error', $curl_error, 'tiny_fontsize');
+        if ($curlerror) {
+            mtrace("License validation error for tiny_fontsize: CURL error - $curlerror (after {$attempt} attempt(s))");
+            set_config('license_validation_error', $curlerror, 'tiny_fontsize');
             set_config('license_last_checked', time(), 'tiny_fontsize');
             return;
         }
 
-        if ($http_code !== 200) {
-            mtrace("License validation error for tiny_fontsize: HTTP $http_code (after {$attempt} attempt(s))");
-            set_config('license_validation_error', "HTTP $http_code", 'tiny_fontsize');
+        if ($httpcode !== 200) {
+            mtrace("License validation error for tiny_fontsize: HTTP $httpcode (after {$attempt} attempt(s))");
+            set_config('license_validation_error', "HTTP $httpcode", 'tiny_fontsize');
             set_config('license_last_checked', time(), 'tiny_fontsize');
             return;
         }
@@ -128,13 +125,13 @@ class validate_license extends \core\task\scheduled_task {
             return;
         }
 
-        // Save validation data
+        // Save validation data.
         set_config('license_validation_error', '', 'tiny_fontsize');
         set_config('license_validation_data', json_encode($data), 'tiny_fontsize');
         set_config('license_last_checked', time(), 'tiny_fontsize');
 
-        $is_valid = $data['valid'] ?? false;
-        if ($is_valid) {
+        $isvalid = $data['valid'] ?? false;
+        if ($isvalid) {
             mtrace("License validation successful for tiny_fontsize");
         } else {
             mtrace("License validation failed for tiny_fontsize: License is not valid");
@@ -144,16 +141,16 @@ class validate_license extends \core\task\scheduled_task {
     /**
      * Perform a single HTTP request against the licensing API.
      *
-     * @param string $license_key The license key to validate.
+     * @param string $licensekey The license key to validate.
      * @return array{response: string|false, http_code: int, curl_error: string}
      */
-    private function perform_request($license_key) {
-        $api_url = 'https://api.finspire.fi/v1/licenses/verify';
+    private function perform_request($licensekey) {
+        $apiurl = 'https://api.finspire.fi/v1/licenses/verify';
 
-        $payload = json_encode(['license_key' => $license_key]);
+        $payload = json_encode(['license_key' => $licensekey]);
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $api_url);
+        curl_setopt($ch, CURLOPT_URL, $apiurl);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -164,14 +161,14 @@ class validate_license extends \core\task\scheduled_task {
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
         $response = curl_exec($ch);
-        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $curl_error = curl_error($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlerror = curl_error($ch);
         curl_close($ch);
 
         return [
             'response' => $response,
-            'http_code' => $http_code,
-            'curl_error' => $curl_error,
+            'http_code' => $httpcode,
+            'curl_error' => $curlerror,
         ];
     }
 }

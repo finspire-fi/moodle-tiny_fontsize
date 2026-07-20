@@ -34,7 +34,6 @@ use editor_tiny\plugin_with_configuration;
  * Plugininfo class.
  */
 class plugininfo extends plugin implements plugin_with_configuration, plugin_with_buttons, plugin_with_menuitems {
-
     /**
      * Default font sizes, used whenever the license hasn't been validated.
      */
