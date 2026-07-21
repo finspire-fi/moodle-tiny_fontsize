@@ -53,11 +53,15 @@ if ($ADMIN->fulltree) {
         '18',
     ];
 
-    $settings->add(
-        new admin_setting_configtextarea('tiny_fontsize/fontsizes',
-                get_string('fontsizes', 'tiny_fontsize'),
-                get_string('fontsizes_desc', 'tiny_fontsize'),
-                implode("\r\n", $defaults), PARAM_TEXT, 80, 10));
+    $settings->add(new admin_setting_configtextarea(
+        'tiny_fontsize/fontsizes',
+        get_string('fontsizes', 'tiny_fontsize'),
+        get_string('fontsizes_desc', 'tiny_fontsize'),
+        implode("\r\n", $defaults),
+        PARAM_TEXT,
+        80,
+        10
+    ));
 
     $units = [
         'pt' => get_string('unit_pt', 'tiny_fontsize'),

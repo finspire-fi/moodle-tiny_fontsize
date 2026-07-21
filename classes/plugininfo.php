@@ -33,7 +33,7 @@ use editor_tiny\plugin_with_configuration;
 /**
  * Plugininfo class.
  */
-class plugininfo extends plugin implements plugin_with_configuration, plugin_with_buttons, plugin_with_menuitems {
+class plugininfo extends plugin implements plugin_with_buttons, plugin_with_configuration, plugin_with_menuitems {
     /**
      * Default font sizes, used whenever the license hasn't been validated.
      */
@@ -73,6 +73,10 @@ class plugininfo extends plugin implements plugin_with_configuration, plugin_wit
      * font sizes/unit are ignored and the plugin behaves as if it was never
      * customised, rather than exposing a previously saved configuration.
      *
+     * @param context $context
+     * @param array $options
+     * @param array $fpoptions
+     * @param \editor_tiny\editor|null $editor
      * @return array
      */
     public static function get_plugin_configuration_for_context(
