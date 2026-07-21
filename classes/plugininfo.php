@@ -25,6 +25,7 @@
 namespace tiny_fontsize;
 
 use context;
+use editor_tiny\editor;
 use editor_tiny\plugin;
 use editor_tiny\plugin_with_buttons;
 use editor_tiny\plugin_with_menuitems;
@@ -76,14 +77,14 @@ class plugininfo extends plugin implements plugin_with_buttons, plugin_with_conf
      * @param context $context
      * @param array $options
      * @param array $fpoptions
-     * @param \editor_tiny\editor|null $editor
+     * @param editor|null $editor
      * @return array
      */
     public static function get_plugin_configuration_for_context(
         context $context,
         array $options,
         array $fpoptions,
-        ?\editor_tiny\editor $editor = null
+        ?editor $editor = null
     ): array {
         if (!self::is_license_valid()) {
             return [
