@@ -35,6 +35,7 @@ $string['last_validated'] = 'Viimeksi vahvistettu';
 $string['license_expires'] = 'Vanhenee';
 $string['license_key'] = 'Lisenssiavain';
 $string['license_key_desc'] = 'Anna tämän lisäosan lisenssiavain.';
+$string['license_purchase_info'] = 'Ilman voimassa olevaa lisenssiä tämän lisäosan asetukset ovat lukittuina oletusarvoihinsa. Lisenssin ostaminen <a href="{$a}" target="_blank" rel="noopener noreferrer">Moodle Marketplacesta</a> avaa mahdollisuuden muuttaa asetuksia ja sisältää tuen.';
 $string['license_status'] = 'Tila';
 $string['license_valid'] = 'Voimassa';
 $string['license_validation_info'] = 'Lisenssin vahvistuksen tila';

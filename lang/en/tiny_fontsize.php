@@ -35,6 +35,7 @@ $string['last_validated'] = 'Last Validated';
 $string['license_expires'] = 'Expires';
 $string['license_key'] = 'License Key';
 $string['license_key_desc'] = 'Enter the license key for this plugin.';
+$string['license_purchase_info'] = 'Without a valid license, this plugin\'s settings are locked to their defaults. Purchasing a license from the <a href="{$a}" target="_blank" rel="noopener noreferrer">Moodle Marketplace</a> unlocks the ability to change the configuration and includes support.';
 $string['license_status'] = 'Status';
 $string['license_valid'] = 'Valid';
 $string['license_validation_info'] = 'License Validation Status';

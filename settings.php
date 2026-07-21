@@ -76,10 +76,11 @@ if ($ADMIN->fulltree) {
     ));
 
     // Licensing settings.
+    $marketplaceurl = 'https://marketplace.moodle.com/plugins/36';
     $settings->add(new admin_setting_heading(
         'tiny_fontsize/licensingheading',
         get_string('licensingheading', 'tiny_fontsize'),
-        ''
+        html_writer::div(get_string('license_purchase_info', 'tiny_fontsize', $marketplaceurl), 'alert alert-info')
     ));
 
     $licensekeysetting = new admin_setting_configtext(
