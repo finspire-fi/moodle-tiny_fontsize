@@ -36,12 +36,12 @@ use editor_tiny\plugin_with_configuration;
  */
 class plugininfo extends plugin implements plugin_with_buttons, plugin_with_configuration, plugin_with_menuitems {
     /**
-     * Default font sizes, used whenever the license hasn't been validated.
+     * Default font sizes, used whenever none have been configured.
      */
     private const DEFAULT_FONTSIZES = [10, 12, 14, 18];
 
     /**
-     * Default font size unit, used whenever the license hasn't been validated.
+     * Default font size unit, used whenever none has been configured.
      */
     private const DEFAULT_FONTSIZEUNIT = 'pt';
 
@@ -70,10 +70,6 @@ class plugininfo extends plugin implements plugin_with_buttons, plugin_with_conf
     /**
      * Get plugin configuration.
      *
-     * Until the license has been validated successfully, the configured
-     * font sizes/unit are ignored and the plugin behaves as if it was never
-     * customised, rather than exposing a previously saved configuration.
-     *
      * @param context $context
      * @param array $options
      * @param array $fpoptions
@@ -86,13 +82,6 @@ class plugininfo extends plugin implements plugin_with_buttons, plugin_with_conf
         array $fpoptions,
         ?editor $editor = null
     ): array {
-        if (!self::is_license_valid()) {
-            return [
-                'fontsizes' => self::DEFAULT_FONTSIZES,
-                'fontsizeunit' => self::DEFAULT_FONTSIZEUNIT,
-            ];
-        }
-
         $config = [];
         $rawsizes = get_config('tiny_fontsize', 'fontsizes');
         if ($rawsizes === false || trim($rawsizes) === '') {
@@ -105,22 +94,5 @@ class plugininfo extends plugin implements plugin_with_buttons, plugin_with_conf
         $config['fontsizes'] = array_values(array_filter(array_map('intval', $sizes)));
         $config['fontsizeunit'] = get_config('tiny_fontsize', 'fontsizeunit') ?: self::DEFAULT_FONTSIZEUNIT;
         return $config;
-    }
-
-    /**
-     * Whether the plugin's license has been validated successfully.
-     *
-     * @return bool
-     */
-    private static function is_license_valid(): bool {
-        $error = get_config('tiny_fontsize', 'license_validation_error');
-        $data = get_config('tiny_fontsize', 'license_validation_data');
-
-        if (!empty($error) || empty($data)) {
-            return false;
-        }
-
-        $decoded = json_decode($data, true);
-        return !empty($decoded['valid']);
     }
 }
