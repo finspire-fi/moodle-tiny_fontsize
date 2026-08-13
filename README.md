@@ -32,11 +32,6 @@ Go to *Site administration &raquo; Plugins &raquo; Text editor &raquo; TinyMCE e
 | --- | --- |
 | Font sizes | The list of sizes offered in the picker, one per line |
 | Font size unit | The CSS unit applied to every size (`pt`, `px`, `em`, `rem`, `%`) |
-| License key | Your Finspire license key for this plugin |
-
-## Licensing
-
-This plugin requires a valid license key from [Finspire](https://finspi.re). A scheduled task checks the license against the Finspire licensing server roughly once a week; the exact day/time is randomised per installation so that thousands of sites don't all query the server at once. Validation status (valid/invalid, expiry date, last checked) is shown on the settings page.
 
 ## License
 
